@@ -1,0 +1,90 @@
+\documentclass[UTF8,a4paper,14pt]{ctexart}
+\usepackage{Fancyhdr}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{xcolor}
+\usepackage{makecell}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{makecell}
+% 页眉页脚设置
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+% 只需要区分fancy和empty页面，每章的页眉页脚需手动定义
+\fancypagestyle{plain}{
+  \pagestyle{fancy}     % 将plain页面格式替换为fancy，确保目录页有页眉
+}
+\fancyhfinit{\small} % 页眉页脚字号
+
+% 双线页眉
+\makeatletter
+\def\headrule{{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
+\hrule\@height 1.5pt \@width\headwidth\vskip1.5pt%上面线为1pt粗
+\hrule\@height 0.5pt\@width\headwidth  %下面0.5pt粗
+\vskip-2\headrulewidth\vskip-1pt}      %两条线的距离1pt
+  \vspace{6mm}}     %双线与下面正文之间的垂直间距
+\makeatother
+
+% 各级标题格式
+\ctexset{section={
+  format={\heiti \zihao{3} \bfseries \center},
+  number={第\chinese{section}章}
+}}
+\usepackage{titlesec}
+\titlespacing*{\section}{0pt}{24pt}{18pt}
+\titlespacing{\subsection}{0pt}{24pt}{12pt}
+\titlespacing{\subsubsection}{0pt}{12pt}{6pt}
+\titleformat*{\subsection}{\heiti\large\bfseries}
+\titleformat*{\subsubsection}{\heiti\normalsize\bfseries}
+
+% 目录设置
+\usepackage{hyperref}  
+\hypersetup{hidelinks}
+
+\usepackage{tocloft} 
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} %为目录中section补上引导点
+\usepackage{titletoc}
+\titlecontents{section}[0pt]
+              {\addvspace{6pt}\filright\large\bf} %要将ABSTRACT的字体也替换为Arial的话，在本括号中末尾加上\ttfamily\songti
+              {\contentspush{\thecontentslabel \quad }} %
+              {}{\titlerule*[8pt]{.}\contentspage}
+\setlength{\cftbeforesubsecskip}{6pt}
+\setlength{\cftbeforesubsubsecskip}{6pt}
+
+%图表编号
+\captionsetup[figure][bi-second]{name=Figure} %设置图的英文编号前缀
+\captionsetup[table][bi-second]{name=Table} %设置表的英文编号前缀
+\numberwithin{equation}{section}%公式按章节编号
+\numberwithin{figure}{section}%图表按章节编号
+\numberwithin{table}{section}
+\renewcommand {\thefigure} {\thesection{}-\arabic{figure}}%设定图片的编号。这样设置的实现效果为图1-1
+\renewcommand {\thetable} {\thesection{}-\arabic{table}}
+\renewcommand {\theequation}{\thesection{}-\arabic{equation}}
+
+
+\begin{document}
+
+\input{sec/cover.tex}
+\newpage
+\input{sec/abstract.tex}
+\newpage
+\input{sec/content.tex}
+\begin{center}
+  {\listoffigures
+  \thispagestyle{fancy}
+  \fancyhead [LO, R] {\normalsize{\songti 寒武纪公司研究}}
+  }
+\end{center}
+\newpage
+\input{sec/sec1.tex}
+\newpage
+\input{sec/sec2.tex}
+\newpage
+\input{sec/sec3.tex}
+\newpage
+\input{sec/sec4.tex}
+\end{document}
